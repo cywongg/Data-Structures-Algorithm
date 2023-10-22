@@ -13,5 +13,6 @@ public class Main {
         System.out.println("Following is Breadth First Traversal "+"(starting from vertex 2)");
 
         g.bfs(2);
+//        Graph.print(g);
     }
 }
