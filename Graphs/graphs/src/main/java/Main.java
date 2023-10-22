@@ -14,5 +14,10 @@ public class Main {
 
         g.bfs(2);
 //        Graph.print(g);
+
+        System.out.println("Following is Depth First Traversal " + "(starting from vertex 2)");
+
+        // Function call
+        g.dfs(2);
     }
 }

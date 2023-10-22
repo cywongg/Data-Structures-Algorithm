@@ -1,10 +1,8 @@
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Queue;
 
 public class Graph {
     private int V; // No. of vertices
-    private int E;
     private LinkedList<Integer> adj[]; // Adjacency Lists
 
     // Constructor
@@ -69,4 +67,36 @@ public class Graph {
 //            }
         }
     }
+    // A function used by DFS
+    void DFSUtil(int v, boolean marked[])
+    {
+        // Mark the current node as visited and print it
+        marked[v] = true;
+        System.out.print(v + " ");
+
+        // Recur for all the vertices adjacent to this vertex
+//        Iterator<Integer> i = adj[v].listIterator();
+//        while (i.hasNext()) {
+//            int n = i.next();
+//            if (!visited[n])
+//                DFSUtil(n, visited);
+//        }
+        for (int w : this.adj[v]) {
+            if (!marked[w]){
+                DFSUtil(w, marked);
+            }
+        }
+    }
+
+    // The function to do DFS traversal.
+    // It uses recursive DFSUtil()
+    void dfs(int v)
+    {
+        // Mark all the vertices as not visited(set as false by default in java)
+        boolean marked[] = new boolean[V];
+
+        // Call the recursive helper function to print DFS traversal
+        DFSUtil(v, marked);
+    }
+
 }
