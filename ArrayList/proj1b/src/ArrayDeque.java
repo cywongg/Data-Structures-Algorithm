@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.List;
 
 public class ArrayDeque<T> implements Deque<T> {
@@ -6,38 +5,46 @@ public class ArrayDeque<T> implements Deque<T> {
         Deque<Integer> ad = new ArrayDeque<>();
         ad.addFirst(1);
     }
-    int availableCapacity = 8;
-    int size = 0;
-    int frontIndex = 0;
-    int backIndex = 0;
+    // Instance Variables
+    T[] list;
+    private static final int INITIAL_CAPACITY = 8;
+    private int size;
+    private int firstIndex;
+    private int lastIndex;
 
+    // Constructor
     public ArrayDeque() {
-        List<T> list = new ArrayList<>(8);
-        availableCapacity = 8;
+        list = (T[]) new Object[INITIAL_CAPACITY];
         size = 0;
-        frontIndex = 0;
-        backIndex = 0;
+        firstIndex = 0;
+        lastIndex = 0;
     }
 
     @Override
     public void addFirst(T x) {
-        if (size == 0 && frontIndex == 0) {
-            addLast();
+        // Check if we need to upsize / downsize before performing any operation
+        checkSize();
+        if (isEmpty()) {
+            // initialize -  first item position becomes x
+            list[firstIndex] = x;
+        } else {
+            // add item - (1) move first index to left (2) put item to the left position
+            firstIndex = moveIndexLeft(firstIndex);
+            list[firstIndex] = x;
         }
-        list[]
-        size += 1;
-        if (size == availableCapacity) {
-            resize();
-        }
+        size++;
     }
 
     @Override
     public void addLast(T x) {
-
-    }
-
-    private void resize(){
-
+        checkSize();
+        if (isEmpty()) {
+            list[lastIndex] = x;
+        } else {
+            lastIndex = moveIndexRight(lastIndex);
+            list[lastIndex] = x;
+        }
+        size++;
     }
 
     @Override
@@ -47,26 +54,70 @@ public class ArrayDeque<T> implements Deque<T> {
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return size == 0;
     }
 
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     @Override
     public T removeFirst() {
-        return null;
+        if (isEmpty()) {
+            return null;
+        }
+        T x = list[firstIndex];
+        list[firstIndex] = null;
+        firstIndex = moveIndexRight(firstIndex);
+        size--;
+        checkSize();
+        return x;
     }
 
     @Override
     public T removeLast() {
-        return null;
+        if (isEmpty()) {
+            return null;
+        }
+        T x = list[lastIndex];
+        list[lastIndex] = null;
+        lastIndex = moveIndexLeft(lastIndex);
+        size--;
+        checkSize();
+        return x;
     }
 
     @Override
     public T get(int index) {
-        return null;
+        return list[index];
+    }
+
+    /**
+     * Helper Methods
+     */
+    private void checkSize() {
+        if (size != 0 && size < (list.length * 0.25)) {
+            downSize();
+        } else if (size == list.length) {
+            upSize();
+        }
+    }
+
+    private void upSize() {
+
+    }
+
+    private void downSize() {
+    }
+
+    private int moveIndexLeft(int index) {
+        int newPosition = index--;
+        return newPosition % list.length;
+    }
+
+    private int moveIndexRight(int index) {
+        int newPosition = index++;
+        return newPosition % list.length;
     }
 }
