@@ -1,9 +1,11 @@
+import javax.sound.midi.SysexMessage;
 import java.util.List;
 
 public class ArrayDeque<T> implements Deque<T> {
     public static void main(String[] args) {
         Deque<Integer> ad = new ArrayDeque<>();
         ad.addFirst(1);
+        System.out.println(ad.get(0));
     }
     // Instance Variables
     T[] list;
@@ -90,7 +92,12 @@ public class ArrayDeque<T> implements Deque<T> {
 
     @Override
     public T get(int index) {
-        return list[index];
+        if (index < 0 || index > list.length){
+            return null;
+        }
+        int itemIndex = firstIndex + index;
+        itemIndex = itemIndex % list.length;
+        return list[itemIndex];
     }
 
     /**
@@ -105,19 +112,44 @@ public class ArrayDeque<T> implements Deque<T> {
     }
 
     private void upSize() {
-
+        T[] newList = (T[]) new Object[list.length * 2];
+        // index = the pointer reference of what we need to take into account in old list
+        int index = firstIndex;
+        // i = the temp pointer that points to the locations (to be populated) in the new list
+        int i = 0;
+        // populate the new list
+        while (index != lastIndex) {
+            newList[i++] = list[index];
+            index = moveIndexRight(index);
+        }
+        // copy the last index
+        newList[i] = list[index];
+        firstIndex = 0;
+        lastIndex = size - 1;
+        list = newList;
     }
 
     private void downSize() {
+        T[] newList = (T[]) new Object[list.length / 2];
+        int index = firstIndex;
+        int i = 0;
+        while (index != lastIndex) {
+            newList[i++] = list[index];
+            index = moveIndexRight(index);
+        }
+        newList[i] = list[index];
+        firstIndex = 0;
+        lastIndex = size - 1;
+        list = newList;
     }
 
     private int moveIndexLeft(int index) {
-        int newPosition = index--;
-        return newPosition % list.length;
+        index--;
+        return index % list.length;
     }
 
     private int moveIndexRight(int index) {
-        int newPosition = index++;
-        return newPosition % list.length;
+        index++;
+        return index % list.length;
     }
 }
