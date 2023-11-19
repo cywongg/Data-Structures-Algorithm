@@ -2,6 +2,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LinkedListDeque<T> implements Deque<T> {
+    private Node sentinel;
+    private int size;
+    public LinkedListDeque() {
+        sentinel = new Node(null, null, null);
+        sentinel.next = sentinel;
+        sentinel.prev = sentinel;
+        size = 0;
+    }
     private class Node{
         private T item;
         private Node next;
@@ -12,20 +20,10 @@ public class LinkedListDeque<T> implements Deque<T> {
             prev = y;
         }
     }
-    private Node sentinel;
-    private int size;
-
-    LinkedListDeque() {
-        sentinel = new Node(null, null, null);
-        sentinel.next = sentinel;
-        sentinel.prev = sentinel;
-        size = 0;
-    }
 
     public static void main(String[] args) {
         Deque<Integer> lld = new LinkedListDeque<>();
     }
-
 
     @Override
     public void addFirst(T x) {
