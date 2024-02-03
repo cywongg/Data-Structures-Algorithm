@@ -4,46 +4,33 @@ public class DfsGraph {
     /**
      * Instance variables
      */
-    private int verticeNumber;
-    private LinkedList<Integer> adjacencyList[]; // use Adjacency List to represent the graph
-
+    // use Adjacency List to represent the graph
+    private LinkedList<Integer> adjacencyList[];
+    // Mark all the vertices as not visited (set as false by default in java)
+    private boolean[] marked;
     /**
      * Constructor
-     * @param verticeNumber
      */
-    public DfsGraph(int verticeNumber) {
-        this.verticeNumber = verticeNumber;
-        this.adjacencyList = new LinkedList[verticeNumber];
+    public DfsGraph(int vertexNumber) {
+        this.adjacencyList = new LinkedList[vertexNumber];
+        this.marked = new boolean[vertexNumber];
 
-        for (int i = 0; i < verticeNumber; ++i) //what's this ++i
+        for (int i = 0; i < vertexNumber; ++i)
             adjacencyList[i] = new LinkedList();
     }
 
-    // Function to add an edge into the graph
-    public void addEdge(int edgeFrom, int edgeTo) {
-        adjacencyList[edgeFrom].add(edgeTo);
+    public void addVertex(int vertexFrom, int vertexTo) {
+        adjacencyList[vertexFrom].add(vertexTo);
     }
 
-    // The function to do DFS traversal.
-    // It uses recursive DFSUtil()
-
-    void dfs(int sourceVertex) {
-        // Mark all the vertices as not visited(set as false by default in java)
-        boolean[] marked = new boolean[verticeNumber];
-
-        // Call the recursive helper function to print DFS traversal
-        dfs(sourceVertex, marked);
-    }
-
-    // A function used by DFS
-    void dfs(int v, boolean marked[]) {
+    void dfs(int v) {
         // Mark the current node as visited and print it
         marked[v] = true;
         System.out.print(v + " ");
 
         for (int w : this.adjacencyList[v]) {
             if (!marked[w]){
-                dfs(w, marked);
+                dfs(w);
             }
         }
     }

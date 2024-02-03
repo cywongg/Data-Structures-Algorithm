@@ -17,13 +17,13 @@ public class Main {
 
         System.out.println("Following is Depth First Traversal " + "(starting from vertex 2)");
 
-        DfsGraph graph =new DfsGraph(4);
-        graph.addEdge(0,1);
-        graph.addEdge(0,2);
-        graph.addEdge(1,2);
-        graph.addEdge(2,0);
-        graph.addEdge(2,3);
-        graph.addEdge(3,3);
+        DfsGraph graph = new DfsGraph(4);
+        graph.addVertex(0,1);
+        graph.addVertex(0,2);
+        graph.addVertex(1,2);
+        graph.addVertex(2,0);
+        graph.addVertex(2,3);
+        graph.addVertex(3,3);
         // Function call
         graph.dfs(2);
     }
